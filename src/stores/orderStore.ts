@@ -6,17 +6,20 @@ import {HttpStatusCode} from "axios";
 
 type State = {
   orders: OrderItem
-  lastOrder: OrderItem
+  lastOrder: OrderItem,
+  table: number
 }
 
 export const useOrderStore = defineStore('order', {
   state: (): State => ({
     orders: [] as OrderItem,
     lastOrder: {} as OrderItem,
+    table: 1
   } as State),
   getters: {
     ordersGet: (state: State) => state.orders,
-    lastOrderGet: (state: State) => state.lastOrder
+    lastOrderGet: (state: State) => state.lastOrder,
+    tableGet: (state: State) => state.table
   },
   actions: {
     async getOrders(): Promise<OrderItem[]> {
@@ -30,6 +33,10 @@ export const useOrderStore = defineStore('order', {
       if (response.status === HttpStatusCode.Ok) {
         this.lastOrder = response.data[0]
       }
+    },
+
+    async setTable(table: number) {
+      this.table = table
     },
     async addOrder(orderDto: OrderDto): Promise<OrderItem> {
       let response: Promise<OrderItem> = await orderApi.saveOrder(orderDto);
