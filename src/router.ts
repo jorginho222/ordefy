@@ -10,12 +10,12 @@ const routes = [
     name: 'home'
   },
   {
-    path: '/table-order/:table',
+    path: '/table/:table/order',
     component: TableOrder,
     name: 'tableOrder'
   },
   {
-    path: '/create-order',
+    path: '/table/:table/order/create',
     component: CreateOrder,
     name: 'createOrder'
   }

@@ -7,7 +7,7 @@
       <v-btn
         variant="outlined" color="primary"
         class="mb-5"
-        @click="() => { router.push({name: 'createOrder'}) }"
+        @click="() => { router.push({name: 'createOrder', params: { table: orderStore.table}}) }"
       >
         Crear Orden
       </v-btn>
