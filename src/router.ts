@@ -10,7 +10,7 @@ const routes = [
     name: 'home'
   },
   {
-    path: '/table-order',
+    path: '/table-order/:table',
     component: TableOrder,
     name: 'tableOrder'
   },

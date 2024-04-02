@@ -1,6 +1,7 @@
 import axios from "axios";
 import {OrderDto} from "../interfaces/dtos/OrderDto";
 import {HOST} from "../config";
+
 export default {
   async getOrders() {
     return await axios.get('')

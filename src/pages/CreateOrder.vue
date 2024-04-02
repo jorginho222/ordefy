@@ -7,7 +7,7 @@
       <v-btn
         variant="outlined" color="primary"
         class="mb-5"
-        @click="() => { router.push('/table-order') }"
+        @click="() => { router.push({ name: 'tableOrder', params: { table: orderStore.table }}) }"
       >
         Volver
       </v-btn>
@@ -20,7 +20,7 @@
             variant="outlined"
           >
             <template #title>
-              <h2 class="text-h5 font-weight-bold">Nueva orden - {{ table }}</h2>
+              <h2 class="text-h5 font-weight-bold">Nueva orden - Mesa {{ orderStore.table }}</h2>
             </template>
 
             <v-container
@@ -138,7 +138,7 @@ import router from "../router";
 const orderStore = useOrderStore()
 const showForm: Ref<UnwrapRef<boolean>> = ref(false)
 
-let order: Ref<UnwrapRef<OrderDto>> = ref(OrderDefault())
+let order: Ref<UnwrapRef<OrderDto>> = ref(OrderDefault(orderStore.table))
 let detail: Ref<UnwrapRef<OrderDetailDto>> = ref(OrderDetailDefault())
 const detailHeaders: Array<{ title: string, value: string }> = [
   {title: "Descripción", value: "description"},
@@ -154,7 +154,6 @@ async function saveDetail() {
 
 async function saveOrder() {
   await orderStore.addOrder(order.value)
-  order.value = OrderDefault()
   await router.push('/table-order')
 }
 </script>

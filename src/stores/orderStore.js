@@ -1,36 +1,38 @@
 import { defineStore } from "pinia";
 import orderApi from "../services/orderApi";
 import { HttpStatusCode } from "axios";
+import { ref } from "vue";
 export const useOrderStore = defineStore('order', {
     state: () => ({
-        orders: [],
-        lastOrder: {}
+        orders: ref([]),
+        lastOrder: {},
+        table: 1
     }),
     getters: {
         ordersGet: (state) => state.orders,
-        lastOrderGet: (state) => state.lastOrder
+        lastOrderGet: (state) => state.lastOrder,
+        tableGet: (state) => state.table
     },
     actions: {
         async getOrders() {
             let response = await orderApi.getOrders();
             if (response.status === HttpStatusCode.Ok) {
-                // @ts-ignore
                 this.orders = response.data;
             }
         },
         async getLastOrder() {
-            const response = await orderApi.getLastOrder();
+            const response = await orderApi.fetchLastOrder(this.table);
             if (response.status === HttpStatusCode.Ok) {
-                // @ts-ignore
                 this.lastOrder = response.data[0];
             }
+        },
+        async setTable(table) {
+            this.table = table;
         },
         async addOrder(orderDto) {
             let response = await orderApi.saveOrder(orderDto);
             if (response.status === HttpStatusCode.Created) {
-                // @ts-ignore
                 this.orders.push(response.data);
-                // @ts-ignore
                 this.lastOrder = response.data;
             }
             return response;

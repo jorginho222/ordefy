@@ -20,7 +20,7 @@
             variant="outlined"
           >
             <template #title>
-              <h2 class="text-h5 font-weight-bold">Ultima orden</h2>
+              <h2 class="text-h5 font-weight-bold">Ultima orden - Mesa {{ orderStore.table }}</h2>
             </template>
 
             <v-container>
@@ -60,13 +60,7 @@
 <script setup lang="ts">
 
 import {useOrderStore} from "../stores/orderStore";
+import router from "../router";
 
 const orderStore = useOrderStore()
-getLastOrder()
-
-async function getLastOrder() {
-  console.log(orderStore.getLastOrder())
-  // await orderStore.getLastOrder()
-}
-
 </script>

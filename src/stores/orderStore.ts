@@ -3,19 +3,20 @@ import {OrderItem} from "../interfaces/items/OrderItem";
 import {OrderDto} from "../interfaces/dtos/OrderDto";
 import orderApi from "../services/orderApi";
 import {HttpStatusCode} from "axios";
+import {Ref, ref, UnwrapRef} from "vue";
 
 type State = {
-  orders: OrderItem
-  lastOrder: OrderItem,
-  table: number
+  orders: UnwrapRef<Ref<OrderItem[]>>
+  lastOrder: UnwrapRef<Ref<OrderItem>>,
+  table: UnwrapRef<Ref<number>>
 }
 
 export const useOrderStore = defineStore('order', {
   state: (): State => ({
-    orders: [] as OrderItem,
-    lastOrder: {} as OrderItem,
-    table: 1
-  } as State),
+    orders: ref([] as OrderItem[]),
+    lastOrder: ref({} as OrderItem),
+    table: ref(1)
+  }),
   getters: {
     ordersGet: (state: State) => state.orders,
     lastOrderGet: (state: State) => state.lastOrder,
@@ -29,13 +30,13 @@ export const useOrderStore = defineStore('order', {
       }
     },
     async getLastOrder(): Promise<OrderItem> {
-      const response: Promise<OrderItem> = await orderApi.getLastOrder()
+      const response: Promise<OrderItem> = await orderApi.fetchLastOrder(this.table)
       if (response.status === HttpStatusCode.Ok) {
         this.lastOrder = response.data[0]
       }
     },
 
-    async setTable(table: number) {
+    setTable(table: number) {
       this.table = table
     },
     async addOrder(orderDto: OrderDto): Promise<OrderItem> {
