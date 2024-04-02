@@ -10,10 +10,18 @@ import 'vuetify/styles'
 
 // Composables
 import { createVuetify } from 'vuetify'
+import {mdi, aliases} from "vuetify/iconsets/mdi";
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
   theme: {
     defaultTheme: 'dark',
   },
+  icons: {
+    defaultSet: 'mdi',
+    aliases,
+    sets: {
+      mdi,
+    }
+  }
 })
