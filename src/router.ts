@@ -2,6 +2,7 @@ import {createRouter, createWebHistory, Router} from "vue-router";
 import Home from "./pages/Home.vue";
 import TableOrder from "./pages/TableOrder.vue";
 import CreateOrder from "./pages/CreateOrder.vue";
+import Invoice from "./pages/Invoice.vue";
 
 const routes = [
   {
@@ -18,6 +19,12 @@ const routes = [
     path: '/table/:table/order/create',
     component: CreateOrder,
     name: 'createOrder'
+  },
+  {
+    path: '/invoice/:table',
+    component: Invoice,
+    name: 'tableInvoice',
+    props: true
   }
 ]
 
