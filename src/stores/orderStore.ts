@@ -4,18 +4,23 @@ import {OrderDto} from "../interfaces/dtos/OrderDto";
 import orderApi from "../services/orderApi";
 import {HttpStatusCode} from "axios";
 import {Ref, ref, UnwrapRef} from "vue";
+import {UpdateOrderDto} from "../interfaces/dtos/UpdateOrderDto";
 
 type State = {
   orders: UnwrapRef<Ref<OrderItem[]>>
   lastOrder: UnwrapRef<Ref<OrderItem>>,
-  table: UnwrapRef<Ref<number>>
+  table: UnwrapRef<Ref<string>>
 }
 
 export const useOrderStore = defineStore('order', {
-  state: (): State => ({
+  state: (): {
+    lastOrder: Ref<UnwrapRef<OrderItem>>;
+    orders: Ref<UnwrapRef<OrderItem[]>>;
+    table: Ref<UnwrapRef<string>>
+  } => ({
     orders: ref([] as OrderItem[]),
     lastOrder: ref({} as OrderItem),
-    table: ref(1)
+    table: ref('1')
   }),
   getters: {
     ordersGet: (state: State) => state.orders,
@@ -36,22 +41,21 @@ export const useOrderStore = defineStore('order', {
       }
     },
 
-    setTable(table: number) {
+    setTable(table: string) {
       this.table = table
     },
     async addOrder(orderDto: OrderDto): Promise<OrderItem> {
       let response: Promise<OrderItem> = await orderApi.saveOrder(orderDto);
       if (response.status === HttpStatusCode.Created) {
         this.orders.push(response.data)
-        this.lastOrder = response.data
       }
       return response
     },
-    // async updateOrder(index: number) {
-    //   const response = await orderApi.updateOrder()
-    //   if (response.status === HttpStatusCode.Ok) {
-    //     Object.assign(this.orders[index], response.data)
-    //   }
-    // }
+    async updateOrder(updateOrderDto: UpdateOrderDto): Promise<OrderItem> {
+      const response: Promise<OrderItem> = await orderApi.updateOrder(updateOrderDto)
+      if (response.status === HttpStatusCode.Ok) {
+        this.lastOrder = response.data
+      }
+    }
   }
 })

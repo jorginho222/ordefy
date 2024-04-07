@@ -5,8 +5,8 @@ import { ref } from "vue";
 export const useOrderStore = defineStore('order', {
     state: () => ({
         orders: ref([]),
-        lastOrder: {},
-        table: 1
+        lastOrder: ref({}),
+        table: ref('1')
     }),
     getters: {
         ordersGet: (state) => state.orders,
@@ -26,22 +26,21 @@ export const useOrderStore = defineStore('order', {
                 this.lastOrder = response.data[0];
             }
         },
-        async setTable(table) {
+        setTable(table) {
             this.table = table;
         },
         async addOrder(orderDto) {
             let response = await orderApi.saveOrder(orderDto);
             if (response.status === HttpStatusCode.Created) {
                 this.orders.push(response.data);
-                this.lastOrder = response.data;
             }
             return response;
         },
-        // async updateOrder(index: number) {
-        //   const response = await orderApi.updateOrder()
-        //   if (response.status === HttpStatusCode.Ok) {
-        //     Object.assign(this.orders[index], response.data)
-        //   }
-        // }
+        async updateOrder(updateOrderDto) {
+            const response = await orderApi.updateOrder(updateOrderDto);
+            if (response.status === HttpStatusCode.Ok) {
+                this.lastOrder = response.data;
+            }
+        }
     }
 });

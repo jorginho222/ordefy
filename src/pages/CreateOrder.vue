@@ -154,7 +154,8 @@ async function saveDetail() {
 
 async function saveOrder() {
   await orderStore.addOrder(order.value)
-  await router.push('/table-order')
+
+  await router.push({name: 'tableOrder', params: { table: orderStore.table }})
 }
 </script>
 

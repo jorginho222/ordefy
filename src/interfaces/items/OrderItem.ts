@@ -7,5 +7,6 @@ export interface OrderItem {
   table: number,
   status: string,
   details: OrderDetailDto[],
+  netAmount: number,
   total: number
 }

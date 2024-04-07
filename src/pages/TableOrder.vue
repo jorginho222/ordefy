@@ -45,7 +45,7 @@
 
                 <v-list-item>
                   <template v-slot:append>
-                    {{ `Total: $${orderStore.lastOrderGet?.total}` }}
+                    {{ `Total: $${orderStore.lastOrderGet?.netAmount}` }}
                   </template>
                 </v-list-item>
               </v-list>

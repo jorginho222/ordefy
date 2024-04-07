@@ -1,6 +1,7 @@
 import axios from "axios";
 import {OrderDto} from "../interfaces/dtos/OrderDto";
 import {HOST} from "../config";
+import {UpdateOrderDto} from "../interfaces/dtos/UpdateOrderDto";
 
 export default {
   async getOrders() {
@@ -11,5 +12,8 @@ export default {
   },
   async saveOrder(orderDto: OrderDto) {
     return await axios.post(HOST + '/orders', orderDto)
+  },
+  async updateOrder(updateOrderDto: UpdateOrderDto) {
+    return await axios.patch(HOST + '/orders', updateOrderDto)
   }
 }

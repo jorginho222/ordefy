@@ -9,5 +9,8 @@ export default {
     },
     async saveOrder(orderDto) {
         return await axios.post(HOST + '/orders', orderDto);
+    },
+    async updateOrder(updateOrderDto) {
+        return await axios.patch(HOST + '/orders', updateOrderDto);
     }
 };
